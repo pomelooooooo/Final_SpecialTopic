@@ -6,65 +6,26 @@ import Header from "./header";
 import Footer from "./footer";
 
 function List() {
-  const [first_name, setFirstName] = useState([""]);
-  const [last_name, setLastName] = useState([""]);
-  const [age, setAge] = useState([0]);
-  const [tel, setTel] = useState([""]);
-  const [mail, setMail] = useState([""]);
-  const [type, setType] = useState([""]);
-  const [address, setAddress] = useState([""]);
-
-  const [newAddress, setNewAddress] = useState([""]);
-  const [newFirstName, setNewFirstName] = useState([""]);
-  const [newLastName, setNewLastName] = useState([""]);
-  const [newAge, setNewAge] = useState([""]);
-  const [newTel, setNewTel] = useState([""]);
-  const [newMail, setNewMail] = useState([""]);
-  const [newType, setNewType] = useState([""]);
+  const [newName, setNewName] = useState([""]);
+  const [newLocation, setNewLocation] = useState([""]);
+  const [newDescription, setNewDescription] = useState([""]);
+  const [newPicture, setNewPicture] = useState([""]);
 
   const [userList, setUserList] = useState([]);
 
   const getUser = () => {
-    Axios.get("http://localhost:3001/user").then((Response) => {
+    Axios.get("http://localhost:3001/place").then((Response) => {
       console.log(Response.data);
       setUserList(Response.data);
     });
   };
 
-  const addUser = () => {
-    Axios.post("http://localhost:3001/create", {
-      first_name: first_name,
-      last_name: last_name,
-      age: age,
-      tel: tel,
-      mail: mail,
-      type: type,
-      address: address,
-    }).then(() => {
-      setUserList([
-        ...userList,
-        {
-          first_name: first_name,
-          last_name: last_name,
-          age: age,
-          tel: tel,
-          mail: mail,
-          type: type,
-          address: address,
-        },
-      ]);
-    });
-  };
-
-  const updateUserData = (id) => {
+  const updatePlaceData = (id) => {
     Axios.put("http://localhost:3001/update", {
-      first_name: newFirstName,
-      last_name: newLastName,
-      age: newAge,
-      tel: newTel,
-      mail: newMail,
-      type: newType,
-      address: newAddress,
+      name: newName,
+      location: newLocation,
+      description: newDescription,
+      picture: newPicture,
       id: id,
     }).then((Response) => {
       setUserList(
@@ -72,13 +33,10 @@ function List() {
           return val.id == id
             ? {
                 id: val.id,
-                first_name: newFirstName,
-                last_name: newLastName,
-                age: newAge,
-                tel: newTel,
-                mail: newMail,
-                type: newType,
-                address: newAddress,
+                name: newName,
+                location: newLocation,
+                description: newDescription,
+                picture: newPicture,
               }
             : val;
         })
@@ -86,7 +44,7 @@ function List() {
     });
   };
 
-  const deleteUserData = (id) => {
+  const deletePlaceData = (id) => {
     Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
       setUserList(
         userList.filter((val) => {
@@ -111,88 +69,50 @@ function List() {
                 <br />
                 <div className="row">
                   <div className="col">
-                    <p className="card-text">ชื่อ: {val.first_name}</p>
+                    <p className="card-text">ชื่อ: {val.name}</p>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="แก้ไขชื่อ"
                       onChange={(event) => {
-                        setNewFirstName(event.target.value);
+                        setNewName(event.target.value);
                       }}
                     />
                   </div>
                   <div className="col">
-                    <p className="card-text">นามสกุล: {val.last_name}</p>
+                    <p className="card-text">จังหวัด: {val.location}</p>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="แก้ไขนามสกุล"
+                      placeholder="แก้ไขจังหวัด"
                       onChange={(event) => {
-                        setNewLastName(event.target.value);
+                        setNewLocation(event.target.value);
                       }}
                     />
                   </div>
                 </div>
                 <br />
-                <div className="row">
-                  <div className="col">
-                    <p className="card-text">อายุ: {val.age}</p>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="แก้ไขอายุ"
-                      onChange={(event) => {
-                        setNewAge(event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="col">
-                    <p className="card-text">เบอร์: {val.tel}</p>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="แก้ไขเบอร์"
-                      onChange={(event) => {
-                        setNewTel(event.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div className="row">
-                  <div className="col">
-                    <p className="card-text">Email: {val.mail}</p>
-                    <input
-                      type="mail"
-                      className="form-control"
-                      placeholder="แก้ไข Email"
-                      onChange={(event) => {
-                        setNewMail(event.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="col">
-                    <p className="card-text">ประเภทงานที่ต้องการ: {val.type}</p>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="แก้ไขประเภทงาน"
-                      onChange={(event) => {
-                        setNewType(event.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div className="row">
-                  <p className="card-text">ที่อยู่: {val.address}</p>
+
+                <div className="col-12">
+                  <p className="card-text">รายละเอียด: {val.description}</p>
                   <textarea
                     type="text"
-                    placeholder="แก้ไขที่อยู่"
-                    className="from-control"
-                    row="3"
+                    className="form-control"
+                    placeholder="แก้ไขรายละเอียด"
+                    rows="4"
                     onChange={(event) => {
-                      setNewAddress(event.target.value);
+                      setNewDescription(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-12">
+                  <p className="card-text">รูป: {val.picture}</p>
+                  <input
+                    type="file"
+                    className="form-control"
+                    placeholder="แก้ไขรูป"
+                    onChange={(event) => {
+                      setNewPicture(event.target.value);
                     }}
                   />
                 </div>
@@ -201,7 +121,7 @@ function List() {
                   <button
                     className="btn btn-warning mx-3 "
                     onClick={() => {
-                      updateUserData(val.id);
+                      updatePlaceData(val.id);
                       alert("Information has update!");
                     }}
                   >
@@ -211,7 +131,7 @@ function List() {
                   <button
                     className="btn btn-danger mx-3"
                     onClick={() => {
-                      deleteUserData(val.id);
+                      deletePlaceData(val.id);
                       alert("Are you sure to delete data!");
                     }}
                   >

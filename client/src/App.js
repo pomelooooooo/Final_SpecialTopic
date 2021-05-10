@@ -7,217 +7,148 @@ import { Link } from "react-router-dom";
 import Footer from "./components/footer";
 
 function App() {
-  const [first_name, setFirstName] = useState([""]);
-  const [last_name, setLastName] = useState([""]);
-  const [age, setAge] = useState([0]);
-  const [tel, setTel] = useState([""]);
-  const [mail, setMail] = useState([""]);
-  const [type, setType] = useState([""]);
-  const [address, setAddress] = useState([""]);
+  const [name, setName] = useState([""]);
+  const [location, setLocation] = useState([""]);
+  const [description, setDescription] = useState([""]);
+  const [picture, setPicture] = useState([""]);
 
-  const [newAddress, setNewAddress] = useState([""]);
-  const [newFirstName, setNewFirstName] = useState([""]);
-  const [newLastName, setNewLastName] = useState([""]);
-  const [newAge, setNewAge] = useState([""]);
-  const [newTel, setNewTel] = useState([""]);
-  const [newMail, setNewMail] = useState([""]);
-  const [newType, setNewType] = useState([""]);
+  const [newName, setNewName] = useState([""]);
+  const [newLocation, setNewLocation] = useState([""]);
+  const [newDescription, setNewDescription] = useState([""]);
+  const [newPicture, setNewPicture] = useState([""]);
 
   const [userList, setUserList] = useState([]);
 
   const getUser = () => {
-    Axios.get("http://localhost:3001/user").then((Response) => {
+    Axios.get("http://localhost:3001/place").then((Response) => {
       console.log(Response.data);
       setUserList(Response.data);
     });
   };
 
-  const addUser = () => {
-    Axios.post("http://localhost:3001/create", {
-      first_name: first_name,
-      last_name: last_name,
-      age: age,
-      tel: tel,
-      mail: mail,
-      type: type,
-      address: address,
-    }).then(() => {
-      setUserList([
-        ...userList,
-        {
-          first_name: first_name,
-          last_name: last_name,
-          age: age,
-          tel: tel,
-          mail: mail,
-          type: type,
-          address: address,
-        },
-      ]);
-    });
-  };
-
-  const updateUserData = (id) => {
-    Axios.put("http://localhost:3001/update", {
-      first_name: newFirstName,
-      last_name: newLastName,
-      age: newAge,
-      tel: newTel,
-      mail: newMail,
-      type: newType,
-      address: newAddress,
-      id: id,
-    }).then((Response) => {
-      setUserList(
-        userList.map((val) => {
-          return val.id == id
-            ? {
-                id: val.id,
-                first_name: newFirstName,
-                last_name: newLastName,
-                age: newAge,
-                tel: newTel,
-                mail: newMail,
-                type: newType,
-                address: newAddress,
-              }
-            : val;
-        })
-      );
-    });
-  };
-
-  const deleteUserData = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setUserList(
-        userList.filter((val) => {
-          return val.id != id;
-        })
-      );
-    });
-  };
-
   return (
-    <div className="App">
+    <div className="App" onLoad={getUser}>
       <Header />
       <div className="container">
         <br />
-        <h1>กรอกประวัติส่วนตัว</h1>
-        <hr />
-        <div className="information">
-          <form action="">
-            <div className="mb-3">
-              <label htmlFor="title_name" className="formlabel col-2">
-                คำนำหน้าชื่อ
-              </label>
-              <div className="col-2">
-                <select className="form-control" id="exampleFormControlSelect1">
-                  <option>นาย</option>
-                  <option>นาง</option>
-                  <option>นางสาว</option>
-                </select>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <label htmlFor="first_name" className="formlabel">
-                  ชื่อ
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="ชื่อ"
-                  onChange={(event) => {
-                    setFirstName(event.target.value);
-                  }}
+        <h1>รูปภาพ</h1>
+        <br />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <a href="https://cms.dmpcdn.com/travel/2017/08/03/dbdabd7b-cbd8-4f36-b4f1-05fd51055d0c.jpg">
+                <img
+                  src="https://cms.dmpcdn.com/travel/2017/08/03/dbdabd7b-cbd8-4f36-b4f1-05fd51055d0c.jpg"
+                  alt="Lights"
+                  className="img-fluid2"
                 />
+              </a>
+              <div className="text-center">
+                <b>วัดพระแก้ว</b>
               </div>
-              <div className="col">
-                <label htmlFor="last_name" className="formlabel">
-                  สกุล
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="สกุล"
-                  onChange={(event) => {
-                    setLastName(event.target.value);
-                  }}
+            </div>
+            <div className="col-md-4">
+              <a href="https://cms.dmpcdn.com/travel/2017/08/03/b831d834-c87d-46d8-9b45-672dca0e8df2.jpg">
+                <img
+                  src="https://cms.dmpcdn.com/travel/2017/08/03/b831d834-c87d-46d8-9b45-672dca0e8df2.jpg"
+                  alt="Lights"
+                  className="img-fluid2"
                 />
+              </a>
+              <div className="text-center">
+                <b>เกาะมุก</b>
               </div>
             </div>
-            <div className="row">
-              <div className="col">
-                <label htmlFor="first_name" className="formlabel">
-                  อายุ
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder="อายุ"
-                  onChange={(event) => {
-                    setAge(event.target.value);
-                  }}
+            <div className="col-md-4">
+              <a href="https://cms.dmpcdn.com/travel/2017/08/03/33ae5382-06aa-4ff9-9bf4-eb30b328f29e.jpg">
+                <img
+                  src="https://cms.dmpcdn.com/travel/2017/08/03/33ae5382-06aa-4ff9-9bf4-eb30b328f29e.jpg"
+                  alt="Lights"
+                  className="img-fluid2"
                 />
+              </a>
+              <div className="text-center">
+                <b>ชิงช้าต้นไม้</b>
               </div>
-              <div className="col">
-                <label htmlFor="tel" className="formlabel">
-                  เบอร์โทร
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="09XXXXXXXX"
-                  onChange={(event) => {
-                    setTel(event.target.value);
-                  }}
+            </div>
+          </div>
+          <br />
+          <div className="row">
+            <div className="col-md-4">
+              <a href="https://cms.dmpcdn.com/travel/2017/08/03/71bdbdd6-bc67-40a0-b9e5-b8155309592b.jpg">
+                <img
+                  src="https://cms.dmpcdn.com/travel/2017/08/03/71bdbdd6-bc67-40a0-b9e5-b8155309592b.jpg"
+                  alt="Lights"
+                  className="img-fluid2"
                 />
+              </a>
+              <div className="text-center">
+                <b>ไร่ชาฉุยฟง</b>
               </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="mail" className="formlabel">
-                Email address
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="sample@mail.com"
-                onChange={(event) => {
-                  setMail(event.target.value);
-                }}
-              />
+            <div className="col-md-4">
+              <a href="https://cms.dmpcdn.com/travel/2017/08/03/c56b9abd-03ce-4c5e-862f-109035202301.jpg">
+                <img
+                  src="https://cms.dmpcdn.com/travel/2017/08/03/c56b9abd-03ce-4c5e-862f-109035202301.jpg"
+                  alt="Lights"
+                  className="img-fluid2"
+                />
+              </a>
+              <div className="text-center">
+                <b>เชียงคาน</b>
+              </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="type_job" className="formlabel">
-                ประเภทงานที่ต้องการ
-              </label>
-              <input
-                className="form-control"
-                id=""
-                onChange={(event) => {
-                  setType(event.target.value);
-                }}
-              ></input>
+            <div className="col-md-4">
+              <a href="https://cms.dmpcdn.com/travel/2017/08/03/44aa9e30-1540-47c8-abd8-e86029b256da.jpg">
+                <img
+                  src="https://cms.dmpcdn.com/travel/2017/08/03/44aa9e30-1540-47c8-abd8-e86029b256da.jpg"
+                  alt="Lights"
+                  className="img-fluid2"
+                />
+              </a>
+              <div className="text-center">
+                <b>ตึกชิโนโปตุกีส</b>
+              </div>
             </div>
-            <div className="mb-3">
-              <label htmlFor="address" className="formlabel">
-                ที่อยู่ที่สามารถติดต่อได้
-              </label>
-              <textarea
-                type="text"
-                className="form-control"
-                rows="3"
-                onChange={(event) => {
-                  setAddress(event.target.value);
-                }}
-              />
-            </div>
-            <button className="btn btn-success" onClick={addUser}>
-              บันทึกข้อมูล
-            </button>
-          </form>
+          </div>
         </div>
+        <br />
         <hr />
+        <br />
+        <h1>รายชื่อสถานที่ท่องเที่ยว</h1>
+        <br />
+        {userList.map((val, key) => {
+          return (
+            <div className="user card">
+              <div className="card-body text-left">
+                <h2 className="card-text">ข้อมูลรายชื่อสถานที่ท่องเที่ยว</h2>
+                <br />
+                <div className="row">
+                  <div className="col">
+                    <b className="font-weight-bold">ชื่อสถานที่ท่องเที่ยว: </b>
+                    <p className="card-text">{val.name}</p>
+                  </div>
+                  <div className="col">
+                    <b className="font-weight-bold">จังหวัด: </b>
+                    <p className="card-text">{val.location}</p>
+                  </div>
+                </div>
+                <br />
+
+                <div className="col-12">
+                  <b className="font-weight-bold">รายละเอียด: </b>
+                  <p className="card-text ">{val.description}</p>
+                </div>
+                {/* <div className="col">
+                    <p className="card-text">รูป: {val.picture}</p>
+                  </div> */}
+
+                <br />
+              </div>
+              <br />
+            </div>
+          );
+        })}
       </div>
       <Footer />
     </div>

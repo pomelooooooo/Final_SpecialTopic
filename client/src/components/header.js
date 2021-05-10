@@ -8,28 +8,32 @@ class Header extends Component {
       <div>
         <nav className="navbar navbar-dark bg-dark">
           <div className="row">
-            <div className="col-4">
+            <div className="col-3">
               <Link to="/" className="navbar-brand mx-3">
-                <a>FINDJOB</a>
+                <a>GOTRIP</a>
               </Link>
               <Link className="navbar-brand mx-3">
                 <a>|</a>
               </Link>
             </div>
 
-            <div className="col-8">
+            <div className="col-9">
               <Link to="/" className="navbar-brand mx-3">
                 <a>หน้าหลัก</a>
               </Link>
+              <Link to="/user" className="navbar-brand mx-3">
+                <a>AddLocation</a>
+              </Link>
+
               <Link to="/list" className="navbar-brand mx-3">
-                <a>แสดงข้อมูล</a>
+                <a>EditLocation</a>
               </Link>
             </div>
           </div>
         </nav>
 
         <img
-          src="https://blog.lumahealth.com/hubfs/Finding%20Expat%20Job%20in%20Thailand.png"
+          src="https://gotrip.ge/img/logo-blk.png"
           className="img-fluid "
           alt=""
         />

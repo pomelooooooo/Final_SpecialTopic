@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const multer = require("multer");
 const mysql = require("mysql");
 const cors = require("cors");
 const { request } = require("express");
@@ -11,11 +12,11 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "findjob",
+  database: "gotrip",
 });
 
-app.get("/user", (req, res) => {
-  db.query("SELECT * FROM user", (err, result) => {
+app.get("/place", (req, res) => {
+  db.query("SELECT * FROM place", (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -25,18 +26,14 @@ app.get("/user", (req, res) => {
 });
 
 app.post("/create", (req, res) => {
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
-  const age = req.body.age;
-  const tel = req.body.tel;
-  const mail = req.body.mail;
-  const type = req.body.type;
-  //   const resume = req.body.resume;
-  const address = req.body.address;
+  const name = req.body.name;
+  const location = req.body.location;
+  const description = req.body.description;
+  const picture = req.body.picture;
 
   db.query(
-    "INSERT INTO  user (first_name, last_name, age, tel, mail, type, address) VALUES(?,?,?,?,?,?,?)",
-    [first_name, last_name, age, tel, mail, type, address],
+    "INSERT INTO  place (name, location, description, picture) VALUES(?,?,?,?)",
+    [name, location, description, picture],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -49,17 +46,14 @@ app.post("/create", (req, res) => {
 
 app.put("/update", (req, res) => {
   const id = req.body.id;
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
-  const age = req.body.age;
-  const tel = req.body.tel;
-  const mail = req.body.mail;
-  const type = req.body.type;
-  const address = req.body.address;
+  const name = req.body.name;
+  const location = req.body.location;
+  const description = req.body.description;
+  const picture = req.body.picture;
   db.query(
-    "UPDATE user SET first_name = ?,last_name = ?,age = ?,tel = ?,mail = ?,type = ?,address = ? WHERE id = ?",
+    "UPDATE place SET name = ?,location = ?,description = ?,picture = ? WHERE id = ?",
 
-    [first_name, last_name, age, tel, mail, type, address, id],
+    [name, location, description, picture, id],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -72,7 +66,7 @@ app.put("/update", (req, res) => {
 
 app.delete("/delete/:id", (req, res) => {
   const id = req.params.id;
-  db.query("DELETE FROM user WHERE id = ?", id, (err, result) => {
+  db.query("DELETE FROM place WHERE id = ?", id, (err, result) => {
     if (err) {
       console.log(err);
     } else {

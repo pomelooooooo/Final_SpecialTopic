@@ -10,9 +10,8 @@ h1 {
   text-align: center;
 }
 .footer {
-  flex-shrink: 0;
   text-align: center;
-  background-color: tomato;
+  background-color: rgb(12, 31, 48);
   color: white;
 }
 
@@ -22,8 +21,8 @@ h1 {
 }
 
 .img-fluid2 {
-  width: 30px;
-  height: 30px;
+  width: 410px;
+  height: 300px;
 }
 
 ul {
